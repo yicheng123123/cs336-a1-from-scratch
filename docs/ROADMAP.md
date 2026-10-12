@@ -1,52 +1,31 @@
-# CS336 Assignment 1 路线图
+# 下一阶段路线图
 
-按当前依赖关系和优先级排列。第一项对应正在运行的训练集编码；继续观察现有进程，不另起编码任务。
+基于 2026-10-12 的实际文件、测试和产物。全量 BPE、train.bin / valid.bin、51M 50k 训练和基本生成已完成，不再把它们列为尚待启动的工作。
 
-## 1. 完成 `train.bin` 和最终验证
+## P0：把已有成果变成可独立复现的仓库
 
-- 等现有 `scripts.encode_tinystories` 进程正常结束。
-- 确认临时文件被改名为 `artifacts/encoded/train.bin`；记录实际字节数、token 数、dtype 和 ID 范围。
-- 使用 memmap 验证大小与 token 数一致、ID 小于 vocab size，并确认 next-token batch 可读取。
-- 独立确认 `valid.bin` 与 train/validation split 都是 little-endian uint16。
+1. **发布现有实验代码**：单独审查本地 train.py 改动与 8 个未跟踪脚本；本次文档任务没有提交这些代码。保留现有数据与 checkpoint，避免触发重新训练或覆盖输出。
+2. **统一环境记录**：对齐当前声明的 PyTorch 2.11 与实际已验证的 2.5.1+cu124；记录可重建的依赖锁与 GPU/驱动兼容要求。
+3. **版本化实验配置**：保留 51M 模型/训练/评估/生成设置、全部六组 LR 设置，以及原始 CSV 来源，消除路径硬编码与“脚本后来改过”的复现缺口。
 
-## 2. 接通真实 LM training
+验收目标：全新 clone 能运行核心测试，并在显式提供本地数据/产物后找到可用的训练、评估、生成入口；不把恢复现有实验与新建实验混为同一操作。
 
-- 让训练入口使用 train/valid token IDs（适合大文件的内存映射读取）。
-- 核实 batch 起点和标签偏移不会越过文件边界。
-- 记录模型配置、随机种子、训练/验证 loss 和运行设备。
-- 将 `load_checkpoint` 接入训练入口，恢复 model、optimizer、iteration 和必要的训练状态。
+## P1：数据与 Checkpoint 可追溯性
 
-## 3. TinyStories smoke test
+- 为 validation 编码补齐独立入口和完成记录；归档 train/valid split、dtype、Tokenizer vocab/merges 与输入来源。
+- 保存 model config、RNG states、数据/Tokenizer 版本和软件环境；用短程对照检查恢复后 iteration、optimizer 与采样序列。
+- 增加生成行为检查：空 prompt、采样参数范围、EOS、长度限制、context 截断。
+- 保留当前 SHA-256 manifest 与轻量结果，并在下一次实验中保存实际执行版本，而非只记审查时的源码版本。
 
-- 用很小的模型、短迭代数和已编码的真实语料确认一次端到端 forward/backward、validation 与 checkpoint 保存。
-- 检查日志有限且 loss 为有限值；确认恢复后 iteration 和 optimizer state 接续。
-- smoke test 通过后再计划长时间训练。
+## P2：评估和实验扩展
 
-## 4. GPU training 与 checkpoint resume
+- 对最终模型做全验证集或更充分的固定评估，增加多 seed 和多个 prompt，明确采样/重复窗口协议。
+- 正式比较 batch size、模型规模与 architecture choices，固定其他变量、训练预算和评估样本；不要直接把小模型 5e-3 最优观测推广到 51M。
+- 设计独立 GPU profiling，记录实际峰值显存、tokens/s、latency、warmup、同步和重复次数；不从训练 CSV 的 elapsed time 倒推可靠 GPU benchmark。
+- 确认资源和课程要求后规划 OpenWebText，不自动下载或训练。
 
-- 先解决当前 PyTorch 提示的 NVIDIA driver/CUDA runtime 不兼容，确认设备可用。
-- 记录硬件、软件版本、batch/context/model config、吞吐与 validation loss。
-- 验证中断后可从 checkpoint 恢复；不把 CPU 单元测试结果写成 GPU benchmark。
+## P3：完整 Assignment Writeup
 
-## 5. Generation
+对照 handout 逐题列出实现、推导、实验、限制与未完成项。当前 README 和 EXPERIMENTS 是工程总结，不替代官方全部书面作业。
 
-- 增加 prompt 编码、模型逐 token 生成与 decode。
-- 支持 `temperature`、top-p、`max_new_tokens` 和 EOS stopping。
-- 用固定 prompt 和 seed 做小型行为检查，记录采样参数。
-
-## 6. Experiments / ablations
-
-- 按作业要求设计 architecture ablation、learning-rate 和 batch-size 实验。
-- 固定其他变量，记录配置、随机种子、训练/验证指标和运行成本。
-- 只报告可追溯的测量；不从 tokenizer benchmark 推断 LM 性能。
-
-## 7. OpenWebText
-
-- 获取课程要求的 OpenWebText 子集，确认授权/下载来源、磁盘空间和数据忽略规则。
-- 使用 tokenizer 编码并对 split、dtype、vocab 范围和 batch 读取做验证。
-- 资源允许时运行作业要求的训练/比较实验。
-
-## 8. Writeup
-
-- 对照 handout 汇总方法、真实训练设置、实验设计、结果、限制和失败案例。
-- 确保每个表格与图都能追溯到日志或 stats 文件，并准确区分已完成与计划工作。
+前三个最优先任务：**现有代码发布、依赖/配置统一、数据与恢复行为验证**。

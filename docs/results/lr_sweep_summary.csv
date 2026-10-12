@@ -1,0 +1,7 @@
+peak_learning_rate,iteration,final_val_loss,elapsed_segment_seconds,nominal_token_positions,source
+1e-04,999,6.0544521570205685,17.310411221999992,512000,artifacts/experiments/lr_sweep/lr_1e-04.csv
+1e-03,999,3.951395869255066,12.04669135399999,512000,artifacts/experiments/lr_sweep/lr_1e-03.csv
+3e-03,999,3.529394567012787,12.63720369699999,512000,artifacts/experiments/lr_sweep/lr_3e-03.csv
+5e-03,999,3.499775159358978,16.076975743,512000,artifacts/experiments/lr_sweep_high/lr_5e-03.csv
+1e-02,999,3.5499064445495607,12.466551561000003,512000,artifacts/experiments/lr_sweep_high/lr_1e-02.csv
+3e-02,999,4.242195653915405,11.864450677000008,512000,artifacts/experiments/lr_sweep_high/lr_3e-02.csv

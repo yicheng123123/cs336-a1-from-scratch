@@ -1,0 +1,9 @@
+source,corpus_size_bytes,vocab_size,num_merges,training_time_seconds,peak_process_memory_mib
+artifacts/tokenizer/full_tinystories_vocab10000/tokenizer_stats.json,2227753162,10000,9743,629.722744452,99.55078125
+artifacts/tokenizer/scale_100mb_vocab10000/tokenizer_stats.json,100741548,10000,9743,29.252678845,54.55078125
+artifacts/tokenizer/scale_10mb_vocab10000/tokenizer_stats.json,10074023,10000,9743,4.8614477000000065,66.75
+artifacts/tokenizer/scale_10mb_vocab3000/tokenizer_stats.json,10074023,3000,2743,4.039594226,66.98828125
+artifacts/tokenizer/scale_10mb/tokenizer_stats.json,10074023,1000,743,3.477879940000008,66.6015625
+artifacts/tokenizer/scale_1mb/tokenizer_stats.json,1007405,300,43,0.38583170999999794,26.6875
+artifacts/tokenizer/streaming_smoke/tokenizer_stats.json,100807,300,43,0.049556496000000116,22.078125
+artifacts/tokenizer/tokenizer_stats.json,100807,300,43,0.06125786599999916,22.23828125

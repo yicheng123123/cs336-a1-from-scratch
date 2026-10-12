@@ -1,65 +1,74 @@
 # 项目状态
 
-审计日期：2026-10-11
-项目在 Windows 与 WSL 环境中检查；数据与模型运行产物保留在本地。
+审查日期：2026-10-12；真实根目录：`E:\projects`。
 
-## 已完成
+范围：**CS336 A1 Core Implementation + Selected Experiments**。以下区分本地已经实现/运行的工作，以及本次 GitHub 文档提交实际包含的内容。旧的“训练集仍编码中、无真实 LM 训练、无生成”状态已失效。
 
-### 核心实现
+## 本地已完成并有证据的阶段
 
-- `cs336_basics/tokenizer.py`：GPT-2 风格正则 pre-tokenization、Byte-level BPE、支持 streaming BPE 训练、增量 pair 统计更新、encode/decode、special token 与 iterable encode。
-- `cs336_basics/model.py`：Linear、Embedding、RMSNorm、SwiGLU、RoPE、causal attention、多头 self-attention、Transformer Block、Transformer LM。
-- `cs336_basics/nn_utils.py`：softmax、cross entropy、gradient clipping。
-- `cs336_basics/optimizer.py`：AdamW、带 warmup 的 cosine learning-rate schedule。
-- `cs336_basics/utils.py`：随机 next-token batch、checkpoint 保存与加载。
-- `cs336_basics/train.py`：训练循环、validation loss 估计和周期保存 checkpoint。
+- Byte-level BPE、GPT-2 style pre-tokenization、incremental pair 更新、streaming TinyStories BPE、encode/decode、special token、iterable encoding。
+- Linear / Embedding / RMSNorm / SwiGLU / RoPE / causal Attention / Transformer Block / Transformer LM。
+- Cross-Entropy / Gradient Clipping / AdamW / cosine LR schedule / get_batch / checkpoint save-load。
+- 全量 TinyStories BPE：vocab 10,000、merges 9,743；629.7227 s，99.55 MiB peak process RSS。
+- 最终 uint16 train.bin / valid.bin 已存在：541,229,347 / 2,381,256 tokens。
+- 真实 memmap 训练/validation；周期 Checkpoint、resume、分 Segment 日志。
+- 1.36M 小模型六组 LR 实验；两组固定窗口比较。
+- 51,147,264 参数模型完成 50,000 steps；最终 checkpoint iteration 49,999。model 与 optimizer 在完成检测路径成功恢复，训练直接返回。
+- 最终固定 validation CSV：Loss 1.6692702758312226、PPL 5.308292793964665、Seed 2026、204,800 evaluation positions。
+- 本次 CUDA 短生成复现 Lily 与妈妈做蛋糕的故事；Temperature、Top-p、max_new_tokens 与 EOS 分支在源码存在。
+- 完整参考测试：47 passed、1 xfailed、0 failed、0 skipped，50.37 s；10 条 torch.load FutureWarning。
 
-### BPE 与 TinyStories 数据
+来源包括 [实验记录](EXPERIMENTS.md)、[轻量结果](results/)、[核验输出](results/verification.md)及[来源哈希](results/source_manifest.json)。只有最终评估 CSV 已保存的指标被当作已有评估结果；没有重跑长训练或整个固定评估。
 
-- 原始训练文本存在：`data/TinyStoriesV2-GPT4-train.txt`，2,227,753,162 bytes。
-- 原始 validation 文本存在：`data/TinyStoriesV2-GPT4-valid.txt`，22,502,601 bytes。
-- 全语料 vocab、merges、stats 已写入 `artifacts/tokenizer/full_tinystories_vocab10000/`；实际 stats 为 vocab 10,000、merges 9,743、629.7227 s、峰值进程 RSS 99.55 MiB。
-- `scripts/train_tinystories_bpe.py` 实现完整 BPE 训练、vocab/merges JSON 持久化和重载检查。
-- `scripts/encode_tinystories.py` 实现故事边界分段、uint16 token 写入、memmap 范围和 batch 检查，并在检查通过后将 `.part` 改为正式文件名。
-- `valid.bin` 已存在，大小 4,762,512 bytes，即 2,381,256 个 uint16 token IDs；此前及本次检查确认其数据范围和 batch 对齐有效。
+## 数据 Pipeline
 
-## 当前进行中
-
-`artifacts/encoded/train.bin.part` 正由 WSL 进程 `python -m scripts.encode_tinystories` 编码；审计期间文件持续增长。不要启动第二个编码进程，也不要删除、重命名或覆盖临时文件。
-
-因为编码未结束，以下信息尚无最终证据：`train.bin` 是否生成、token 总数、完整 ID 范围与 memmap 验证。正式训练入口目前不会自动读取该文件。
-
-## 未完成或当前限制
-
-- **真实 TinyStories LM training**：训练函数可以接受数组和 validation 数据，但 `if __name__ == "__main__"` 使用 `np.arange(...) % vocab_size` 构造的周期合成序列；没有从 `.bin` 加载训练集或 validation 集。
-- **resume**：`utils.py` 中 `load_checkpoint` 已实现并由 serialization 测试覆盖；训练入口不调用它，也没有恢复训练状态的配置流程。
-- **checkpoint provenance**：根目录的 `checkpoint.pt` 是本地文件；未发现其由完整 TinyStories 训练产生的证据，因此不能视作真实语料 checkpoint。该文件被 Git 忽略。
-- **generation**：没有 prompt generation、temperature、top-p、`max_new_tokens` 或 EOS stopping。
-- **实验**：没有已完成的 LM learning-rate、batch-size、architecture ablation、GPU benchmark 或 OpenWebText 结果。
-- **writeup/report**：未发现正式作业报告。
-- **数据状态**：完整训练文本和 validation 文本在本地；validation token IDs 完成；train token IDs 仍处于 `.part` 编码阶段。
-
-## 测试与检查
-
-运行命令：
-
-```sh
-.venv-wsl/bin/python -m pytest -p no:cacheprovider
+```text
+TinyStories raw train / valid
+  → 已完成 streaming BPE
+  → vocab 10,000 + merges 9,743
+  → 已完成 train.bin / valid.bin（little-endian uint16）
+  → 真实 next-token LM training + validation
+  → final checkpoint（iteration 49,999）
+  → 固定窗口评估 + 文本生成
 ```
 
-本次结果：**47 passed, 1 xfailed, 0 failed, 0 skipped in 48.67 s**。xfail 是测试预期行为：普通 `Tokenizer.encode` 被检查为超过 1 MB 内存限制。完整套件覆盖 tokenizer、BPE、模型、优化器、训练数据 batch、checkpoint 和数值工具。核心实现与两个数据脚本均可导入。
+原始 train / valid 字节数为 2,227,753,162 / 22,502,601；编码文件为 1,082,458,694 / 4,762,512 bytes。本次在每个 binary 文件的五个位置各读 65,536 bytes，分别抽样 163,840 IDs，没有越出 vocab range。未重做全语料范围扫描或逐字节编码一致性验证。
 
-运行时有 CUDA warning：本机 NVIDIA driver 低于安装的 PyTorch CUDA runtime 要求。测试结果不验证 GPU 训练能力；GPU 是否可用需单独解决驱动问题后确认。
+当前 `encode_tinystories.py` 只提供 train 默认入口，validation 编码入口与历史验证日志未正式归档。数据、Tokenizer JSON、checkpoint 保持在本地。
 
-## Git 与上传安全
+## GitHub 代码发布状态
 
-- 当前分支为 `main`，原 remote `origin` 仍是 Stanford starter repository；本次不会替换它。
-- 准备发布的 `main` 可达历史中未发现大于 50 MB 的 blob；其中也没有 `data/`、`artifacts/` 或根目录 `checkpoint.pt`。
-- 本地另有 Codex 检查点引用可达旧提交及 2,227,753,162-byte TinyStories blob。它不属于 `main`，发布时只推送 `main` 分支，不推送该引用。
-- `.gitignore` 排除原始数据、实验产物、checkpoint、虚拟环境、临时编码文件和本地密钥配置；数据不会上传。
-- 对已跟踪文件名和代码内容执行了凭据/私钥模式检查，未发现命中。
-- 本次测试与审计没有修改核心算法。README、状态/实验/路线图文档和 `.gitignore` 属于本次整理范围。
+审查开始的分支为 `main`，基准 commit `939ef3e409393b07adc74f5633350dafe15a8808`，远端 `cs336-github` 指向用户仓库；`origin` 仍指向 Stanford starter。此前已压缩的历史本次不再改写。
 
-## 当前进度估计
+已有用户工作：
 
-约 **55%**，是对 Assignment 1 工作项的粗略估计，不是测试通过率。主要核心实现、完整 BPE 和 validation 数据准备已完成；train token 编码仍在进行，真实 LM training、生成、性能/消融实验、OpenWebText 和 writeup 尚未完成。
+- 6 个已跟踪修改：`cs336_basics/model.py`、`nn_utils.py`、`optimizer.py`、`train.py`、`utils.py`、`tests/adapters.py`。其中实际内容差异集中在 train.py，其余主要为文件 mode 差异。
+- 8 个未跟踪脚本：`compare_lr_checkpoints.py`、`eval_tinystories_51m.py`、`generate_tinystories.py`、`generate_tinystories_51m.py`、`lr_sweep.py`、`plot_lr_sweep.py`、`smoke_experiment_logging.py`、`train_tinystories_51m.py`。
+
+**按照本次“只提交 README、必要图片和文档”的要求，这些源码没有暂存、改写或提交。** 当前 GitHub 新文档因此展示本地实验证据，但新克隆仍缺少 51M/LR/生成等入口和新版训练循环。README 已明确该限制，未提供误导性的“一键复现全部训练”承诺。
+
+## 未完成与证据限制
+
+- 未完成全部官方书面题/writeup、OpenWebText、Architecture Ablation、正式 Batch Size Sweep。
+- 还没有稳健的 GPU throughput/latency benchmark；未找到训练峰值显存的持久化记录，背景中的约 2.129 GiB 未计入已核实结果。
+- 未验证多 seed 的指标方差；固定-window PPL 不代表完整 validation 集。
+- Checkpoint 未保存 model config、RNG states、Tokenizer/数据版本，resume 不保证与未中断训练的逐步等价。
+- 历史低 LR 三组没有独立脚本版本；当前 sweep 脚本只定义高 LR 三组。
+- 未提供独立的完整 validation encoding CLI，也缺少生成边界行为测试、KV Cache 和系统性质量评估。
+- 当前 `pyproject.toml` 的 torch~=2.11.0 与实际通过测试的 PyTorch 2.5.1+cu124 不一致。
+
+无核心函数的 `NotImplementedError`、TODO 或仅 pass 的实现残留；发现的 pass 是 `tests/conftest.py` 的 DEFAULT sentinel 类，以及 `cs336_basics/__init__.py` 的可选包版本查询异常处理，不是待实现算法。没有将现有组件测试通过等同于完成全作业。
+
+## 阶段性进度
+
+本地的核心实现、TinyStories 数据准备、真实 GPU 训练、恢复、选定 LR 实验、固定评估与生成链路已经完成。尚未完成的课程要求与实验在上文列明；本次不使用缺乏任务权重依据的“全部完成”或总进度百分比。
+
+对外可复现程度仍受“实验代码未发布”和“依赖版本不一致”限制；它们是下一阶段优先任务，而不是继续延长现有 51M 训练。
+
+## 下一阶段
+
+1. 单独审查并发布现有实验代码，统一依赖/版本化配置，确保 fresh clone 的入口可用。
+2. 补全验证集编码入口、Checkpoint/RNG/config provenance 及短程 resume/generation 行为检查。
+3. 固定实验协议后开展 batch-size/architecture 对照、多 seed、全验证集评估；再按课程范围考虑 OpenWebText 与完整 writeup。
+
+详细拆分见 [ROADMAP.md](ROADMAP.md)。

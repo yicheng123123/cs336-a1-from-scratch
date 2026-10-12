@@ -1,0 +1,2 @@
+learning_rate,iteration,val_loss,perplexity,seed,evaluated_tokens
+51M_final,49999,1.6692702758312226,5.308292793964665,2026,204800

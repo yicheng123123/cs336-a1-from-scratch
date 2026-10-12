@@ -1,0 +1,15 @@
+Audit date: 2026-10-12
+Command: wsl --cd /mnt/e/projects --exec /mnt/e/projects/.venv-wsl/bin/python -B -m scripts.generate_tinystories_51m
+Settings from inspected script: seed=42, temperature=0.8, top_p=0.9, max_new_tokens=150, context_length=256
+Checkpoint: artifacts/checkpoints/tinystories_51m.pt
+This is actual output from a new short inference during the documentation audit; no model training was performed.
+
+Device: cuda
+Checkpoint iteration: 49999
+
+===== Generated Story =====
+Once upon a time, there was a little girl named Lily. She had a big heart and loved to help her mom in the kitchen. One day, her mom said, "Lily, I have a surprise for you." Lily was very happy.
+Lily asked her mom, "Can you help me make a cake?" Her mom smiled and said, "Yes, Lily! Let's make a cake together." They mixed the cake batter and put it in a pan. They mixed everything up.
+When the cake was ready, Lily and her mom took it out of the oven. They put it on a rack and the cake. Then, they added the cake to the cake. The cake smelled so good. They shared the cake with their friends and everyone loved it.
+
+===========================

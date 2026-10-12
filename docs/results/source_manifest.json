@@ -1,0 +1,265 @@
+{
+  "audit_date": "2026-10-12",
+  "timezone": "Asia/Shanghai",
+  "baseline_main": "939ef3e409393b07adc74f5633350dafe15a8808",
+  "publication_scope": "Documentation, lightweight metrics and figures only; user source changes remain uncommitted",
+  "code_snapshot": [
+    {
+      "path": "cs336_basics/model.py",
+      "sha256": "5090abe8570e1ad7f21947c4f21b15b6d9d2a949d9b90cdcff3f301d85949a8f"
+    },
+    {
+      "path": "cs336_basics/tokenizer.py",
+      "sha256": "c79a1913ed88e47f055f54d3e5420c1cc09076ff407e66394d737c30c07b4046"
+    },
+    {
+      "path": "cs336_basics/nn_utils.py",
+      "sha256": "c81954dd00401db3db38b6a820494adb2b84e3be2c0ec6d016c7f7ae91457bc6"
+    },
+    {
+      "path": "cs336_basics/optimizer.py",
+      "sha256": "08e2397252cd3d4a54cdb42ba2d1781e63558e59613edc004e57d364abf71eb7"
+    },
+    {
+      "path": "cs336_basics/utils.py",
+      "sha256": "7a6ff3033ce509111026b0f4d4386d55d68ea2827e6d4e4c43d4469289a4e969"
+    },
+    {
+      "path": "cs336_basics/train.py",
+      "sha256": "44e2dbaef93233903c13ad6ae1a7c36ea59d3fe8079cf3ca05607a2ac5b3eb7e"
+    },
+    {
+      "path": "scripts/train_tinystories_51m.py",
+      "sha256": "5422491382abce7b2728055c4450ec43241d59d389236f9085656197c0f6981b"
+    },
+    {
+      "path": "scripts/eval_tinystories_51m.py",
+      "sha256": "197e13dfb1d9af179ea88dca42d51140ed76213cd58a244a75c002e422e44864"
+    },
+    {
+      "path": "scripts/generate_tinystories_51m.py",
+      "sha256": "b207a218cfe5c8c518d9fd3a08aa883d5f2289578e0c12a8459144b8e4b0496d"
+    },
+    {
+      "path": "scripts/compare_lr_checkpoints.py",
+      "sha256": "2b848100a80c6ad84919c6f1d0703af5fa0de91c772d8b2620b4504ea9567870"
+    },
+    {
+      "path": "scripts/lr_sweep.py",
+      "sha256": "e83fa8a5455edde1e88eeb5c00a5afffd47b4419da8154bcbb2db04c4839cccf"
+    },
+    {
+      "path": "scripts/plot_lr_sweep.py",
+      "sha256": "44522e7de371751df43d3f9c1141cd900c448022a20e51c4327b660a667d7e43"
+    },
+    {
+      "path": "scripts/train_tinystories_bpe.py",
+      "sha256": "cd5be4feff232484e701fe4888ac59d2ea9f950deb735084ff9e3ea7fdd444d2"
+    },
+    {
+      "path": "scripts/encode_tinystories.py",
+      "sha256": "ed1d9f742fc01a7e41420921626aa12ac542f03d5f5897448bf95fa123a9c26e"
+    }
+  ],
+  "artifact_sources": [
+    {
+      "path": "artifacts/experiments/tinystories_51m/segment_000.csv",
+      "sha256": "32b200096ce5b9e49fa7e210a098bd08e243d1c185ed3d3a6e749f938f6edfa8"
+    },
+    {
+      "path": "artifacts/experiments/tinystories_51m/segment_001.csv",
+      "sha256": "209ba17a8055a2313b20396506858d2eda98a6644fc8584631bcd277e1f4e56e"
+    },
+    {
+      "path": "artifacts/experiments/tinystories_51m/fixed_validation_final.csv",
+      "sha256": "c84458494f3ade4578ebe4a38465234658a59407d1c88bd43318c922e01ea9f7"
+    },
+    {
+      "path": "artifacts/experiments/fixed_validation_lr_comparison.csv",
+      "sha256": "25a7c3621f1758330bbd8ea642716f6fbba54deb3a204f8779450e5bf13b3e05"
+    },
+    {
+      "path": "artifacts/tokenizer/full_tinystories_vocab10000/tokenizer_stats.json",
+      "sha256": "5d553ec74b1c3dd7cb6eabbec5add2b66fbdc968b1e9b0114cc462c8cdd75f8e"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep_plots/loss_vs_steps.png",
+      "sha256": "59382fcdd15ed490f4711203f22d9be8da383e803d5f87cd6d5b1ebbaf41365b"
+    }
+  ],
+  "source_csv_hashes": [
+    {
+      "path": "artifacts/experiments/fixed_validation_lr_comparison.csv",
+      "sha256": "25a7c3621f1758330bbd8ea642716f6fbba54deb3a204f8779450e5bf13b3e05"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep/lr_1e-03.csv",
+      "sha256": "f68e47b70f3c828a7ebaae06f175c61b4f5b1acf687a28b9cf8268151000f06a"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep/lr_1e-04.csv",
+      "sha256": "f9120a6947424a97edc29bfa5781c1a854346c15b7ee8865f0148884871752f8"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep/lr_3e-03.csv",
+      "sha256": "54b042315557fe64533b865dd69088540d3b042df2683d97beee2cabe0b66c41"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep/summary.csv",
+      "sha256": "8c65242e7de090e8821f1629745dfc7b5528b78671deb26daf26d8cb6320fdd4"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep_high/lr_1e-02.csv",
+      "sha256": "385dd4034ae1f54681d9296df66ce6bb12dade23110cd33859bf592a9ea82bbb"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep_high/lr_3e-02.csv",
+      "sha256": "1b99ebcfdd3b6dc79ac4c8a8dd86b4a02ad1d6e28f6d9a94ad2430293e63f836"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep_high/lr_5e-03.csv",
+      "sha256": "abe898d8c385aa703c6e3b36ff710e2ffb4c7654e06cd1caf0cd35e1592e1101"
+    },
+    {
+      "path": "artifacts/experiments/lr_sweep_high/summary.csv",
+      "sha256": "dc451729de9e656bf580ac7d5b05ba2ca6c9b798e05c11f874f830bf1113a907"
+    },
+    {
+      "path": "artifacts/experiments/tinystories_51m/fixed_validation_final.csv",
+      "sha256": "c84458494f3ade4578ebe4a38465234658a59407d1c88bd43318c922e01ea9f7"
+    },
+    {
+      "path": "artifacts/experiments/tinystories_51m/segment_000.csv",
+      "sha256": "32b200096ce5b9e49fa7e210a098bd08e243d1c185ed3d3a6e749f938f6edfa8"
+    },
+    {
+      "path": "artifacts/experiments/tinystories_51m/segment_001.csv",
+      "sha256": "209ba17a8055a2313b20396506858d2eda98a6644fc8584631bcd277e1f4e56e"
+    }
+  ],
+  "checkpoint": {
+    "path": "artifacts/checkpoints/tinystories_51m.pt",
+    "bytes": 613878304,
+    "sha256": "43f9be14347cf5c2d094fd84206797f946ec01375a65ac1cec1646ffd3246f57",
+    "loaded_iteration": 49999,
+    "parameter_count_from_completed_run_check": 51147264,
+    "model_and_optimizer_restored": true,
+    "published": false
+  },
+  "model_config": {
+    "vocab_size": 10000,
+    "context_length": 256,
+    "d_model": 512,
+    "num_layers": 12,
+    "num_heads": 8,
+    "d_ff": 1536,
+    "rope_theta": 10000
+  },
+  "training_config_from_current_local_script": {
+    "num_iters": 50000,
+    "batch_size": 8,
+    "max_lr": 0.001,
+    "min_lr": 0.0001,
+    "warmup_iters": 1000,
+    "weight_decay": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-8,
+    "max_grad_norm": 1,
+    "eval_interval": 500,
+    "validation_batches": 20,
+    "checkpoint_interval": 2000
+  },
+  "final_fixed_validation": {
+    "source": "artifacts/experiments/tinystories_51m/fixed_validation_final.csv",
+    "val_loss": 1.6692702758312226,
+    "perplexity": 5.308292793964665,
+    "seed": 2026,
+    "batch_size": 8,
+    "context_length": 256,
+    "num_batches": 100,
+    "evaluated_token_positions": 204800,
+    "recomputed_in_this_audit": false
+  },
+  "training_curve": {
+    "input_rows": 102,
+    "retained_rows": 101,
+    "discarded_records": [
+      {
+        "source_segment": "segment_000.csv",
+        "iteration": 38500,
+        "train_loss": 1.5477266311645508,
+        "val_loss": 1.7062191307544707,
+        "learning_rate": 0.00021687490131610808,
+        "elapsed_run_seconds": 9768.004043701001,
+        "tokens_seen": 78850048
+      }
+    ],
+    "rule": "For each later numbered segment, discard earlier records at or above its first logged iteration, then append the later segment; no global elapsed time is reconstructed",
+    "first_iteration": 0,
+    "last_iteration": 49999,
+    "last_random_batch_validation_loss": 1.6988329946994782,
+    "nominal_token_prediction_positions": 102400000
+  },
+  "encoded_data": [
+    {
+      "path": "artifacts/encoded/train.bin",
+      "bytes": 1082458694,
+      "token_count_from_uint16_size": 541229347,
+      "sampled_tokens": 163840,
+      "sample_min": 10,
+      "sample_max": 9985
+    },
+    {
+      "path": "artifacts/encoded/valid.bin",
+      "bytes": 4762512,
+      "token_count_from_uint16_size": 2381256,
+      "sampled_tokens": 163840,
+      "sample_min": 10,
+      "sample_max": 9977
+    }
+  ],
+  "tokenizer": {
+    "vocab_count_from_json": 10000,
+    "merges_count_from_json": 9743,
+    "eos_id": 256,
+    "full_stats": {
+      "source": "artifacts/tokenizer/full_tinystories_vocab10000/tokenizer_stats.json",
+      "corpus_size_bytes": 2227753162,
+      "vocab_size": 10000,
+      "num_merges": 9743,
+      "training_time_seconds": 629.722744452,
+      "peak_process_memory_mib": 99.55078125
+    }
+  },
+  "verification": {
+    "passed": 47,
+    "xfailed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 10,
+    "seconds": 50.37,
+    "generation_device": "cuda",
+    "completed_run_check": "Model parameters: 51147264; Resuming from iteration: 50000; Training already completed"
+  },
+  "environment_observed_in_audit": {
+    "os": "Ubuntu 24.04.1 LTS / WSL2",
+    "python": "3.12.14",
+    "torch": "2.5.1+cu124",
+    "numpy": "2.4.4",
+    "cuda_build": "12.4",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_total_memory_mib": 8188,
+    "driver": "555.97"
+  },
+  "limitations": [
+    "No saved peak training VRAM metric was found.",
+    "Current pyproject.toml specifies torch~=2.11.0, not the observed verified environment.",
+    "Experiment code and updated train.py were not included in this documentation-only publication.",
+    "Checkpoint lacks configuration and RNG states; historical source revisions were not embedded.",
+    "Binary ID ranges were sampled, not rescanned in full."
+  ]
+}
